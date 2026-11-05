@@ -3,64 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ICT Number System Converter</title>
+    <title>ICT Advanced Number System Converter</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts for crisp modern typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="converter-container">
+    <div class="background-glow"></div>
+    
+    <div class="container">
         <header>
-            <h1>ICT Number System Converter</h1>
-            <p>Convert values seamlessly between Binary, Decimal, Octal, and Hexadecimal.</p>
+            <div class="badge">ICT Project</div>
+            <h1>Number System <span>Converter</span></h1>
+            <p>Real-time bidirectional conversion across Binary, Decimal, Octal, and Hexadecimal bases.</p>
         </header>
 
-        <div class="input-section">
-            <div class="input-group">
-                <label for="inputValue">Enter Value:</label>
-                <input type="text" id="inputValue" placeholder="Type a number..." autocomplete="off">
-            </div>
-            <div class="input-group">
-                <label for="inputBase">Input Base:</label>
-                <select id="inputBase">
-                    <option value="2">Binary (Base 2)</option>
-                    <option value="10" selected>Decimal (Base 10)</option>
-                    <option value="8">Octal (Base 8)</option>
-                    <option value="16">Hexadecimal (Base 16)</option>
-                </select>
-            </div>
-        </div>
-
-        <div id="errorMsg" class="error-msg"></div>
-
-        <div class="results-grid">
-            <div class="result-card">
-                <h3>Binary (Base 2)</h3>
-                <div class="result-value" id="resBinary">-</div>
-            </div>
-            <div class="result-card">
-                <h3>Decimal (Base 10)</h3>
-                <div class="result-value" id="resDecimal">-</div>
-            </div>
-            <div class="result-card">
-                <h3>Octal (Base 8)</h3>
-                <div class="result-value" id="resOctal">-</div>
-            </div>
-            <div class="result-card">
-                <h3>Hexadecimal (Base 16)</h3>
-                <div class="result-value" id="resHex">-</div>
-            </div>
-        </div>
-
-        <div class="extra-section">
-            <div class="card stretch-card">
-                <h3>2's Complement (8-bit / 16-bit)</h3>
-                <p id="twosComplementText">Enter a valid decimal number to view.</p>
-            </div>
-            <div class="card breakdown-card">
-                <h3>Step-by-Step Breakdown</h3>
-                <div id="breakdownContent" class="breakdown-content">
-                    Type a value above to see the calculation steps.
+        <main class="converter-grid">
+            <!-- Binary Card -->
+            <div class="card" data-base="binary">
+                <div class="card-header">
+                    <span class="base-tag">Base 2</span>
+                    <h2>Binary</h2>
                 </div>
+                <div class="input-group">
+                    <input type="text" id="binary" placeholder="e.g. 1010" autocomplete="off" spellcheck="false">
+                    <button class="copy-btn" onclick="copyValue('binary')" title="Copy Value">📋</button>
+                </div>
+                <span class="error-msg" id="binary-err"></span>
             </div>
+
+            <!-- Decimal Card -->
+            <div class="card" data-base="decimal">
+                <div class="card-header">
+                    <span class="base-tag">Base 10</span>
+                    <h2>Decimal</h2>
+                </div>
+                <div class="input-group">
+                    <input type="text" id="decimal" placeholder="e.g. 10" autocomplete="off" spellcheck="false">
+                    <button class="copy-btn" onclick="copyValue('decimal')" title="Copy Value">📋</button>
+                </div>
+                <span class="error-msg" id="decimal-err"></span>
+            </div>
+
+            <!-- Octal Card -->
+            <div class="card" data-base="octal">
+                <div class="card-header">
+                    <span class="base-tag">Base 8</span>
+                    <h2>Octal</h2>
+                </div>
+                <div class="input-group">
+                    <input type="text" id="octal" placeholder="e.g. 12" autocomplete="off" spellcheck="false">
+                    <button class="copy-btn" onclick="copyValue('octal')" title="Copy Value">📋</button>
+                </div>
+                <span class="error-msg" id="octal-err"></span>
+            </div>
+
+            <!-- Hexadecimal Card -->
+            <div class="card" data-base="hex">
+                <div class="card-header">
+                    <span class="base-tag">Base 16</span>
+                    <h2>Hexadecimal</h2>
+                </div>
+                <div class="input-group">
+                    <input type="text" id="hex" placeholder="e.g. A" autocomplete="off" spellcheck="false">
+                    <button class="copy-btn" onclick="copyValue('hex')" title="Copy Value">📋</button>
+                </div>
+                <span class="error-msg" id="hex-err"></span>
+            </div>
+        </main>
+
+        <div class="actions-bar">
+            <button id="clear-btn" onclick="clearAll()">Clear All Fields</button>
         </div>
     </div>
 
