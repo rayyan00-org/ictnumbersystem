@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICT Number System Converter</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="converter-container">
+        <header>
+            <h1>ICT Number System Converter</h1>
+            <p>Convert values seamlessly between Binary, Decimal, Octal, and Hexadecimal.</p>
+        </header>
+
+        <div class="input-section">
+            <div class="input-group">
+                <label for="inputValue">Enter Value:</label>
+                <input type="text" id="inputValue" placeholder="Type a number..." autocomplete="off">
+            </div>
+            <div class="input-group">
+                <label for="inputBase">Input Base:</label>
+                <select id="inputBase">
+                    <option value="2">Binary (Base 2)</option>
+                    <option value="10" selected>Decimal (Base 10)</option>
+                    <option value="8">Octal (Base 8)</option>
+                    <option value="16">Hexadecimal (Base 16)</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="errorMsg" class="error-msg"></div>
+
+        <div class="results-grid">
+            <div class="result-card">
+                <h3>Binary (Base 2)</h3>
+                <div class="result-value" id="resBinary">-</div>
+            </div>
+            <div class="result-card">
+                <h3>Decimal (Base 10)</h3>
+                <div class="result-value" id="resDecimal">-</div>
+            </div>
+            <div class="result-card">
+                <h3>Octal (Base 8)</h3>
+                <div class="result-value" id="resOctal">-</div>
+            </div>
+            <div class="result-card">
+                <h3>Hexadecimal (Base 16)</h3>
+                <div class="result-value" id="resHex">-</div>
+            </div>
+        </div>
+
+        <div class="extra-section">
+            <div class="card stretch-card">
+                <h3>2's Complement (8-bit / 16-bit)</h3>
+                <p id="twosComplementText">Enter a valid decimal number to view.</p>
+            </div>
+            <div class="card breakdown-card">
+                <h3>Step-by-Step Breakdown</h3>
+                <div id="breakdownContent" class="breakdown-content">
+                    Type a value above to see the calculation steps.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
