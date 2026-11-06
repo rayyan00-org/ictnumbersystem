@@ -3,78 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ICT Advanced Number System Converter</title>
+    <title>Advanced ICT Number System Converter</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Google Fonts for crisp modern typography -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="background-glow"></div>
-    
+
     <div class="container">
         <header>
-            <div class="badge">ICT Project</div>
+            <span class="badge">ICT Digital Fundamentals Project</span>
             <h1>Number System <span>Converter</span></h1>
-            <p>Real-time bidirectional conversion across Binary, Decimal, Octal, and Hexadecimal bases.</p>
+            <p>Convert seamlessly between Binary, Decimal, Octal, Hexadecimal, BCD, 1's Complement, and 2's Complement.</p>
         </header>
 
-        <main class="converter-grid">
-            <!-- Binary Card -->
-            <div class="card" data-base="binary">
-                <div class="card-header">
-                    <span class="base-tag">Base 2</span>
-                    <h2>Binary</h2>
+        <!-- Main Input Section -->
+        <section class="input-section">
+            <div class="input-control-row">
+                <div class="field-wrapper select-wrapper">
+                    <label for="input-base">Input Base</label>
+                    <select id="input-base">
+                        <option value="2">Binary (Base 2)</option>
+                        <option value="10" selected>Decimal (Base 10)</option>
+                        <option value="8">Octal (Base 8)</option>
+                        <option value="16">Hexadecimal (Base 16)</option>
+                    </select>
                 </div>
-                <div class="input-group">
-                    <input type="text" id="binary" placeholder="e.g. 1010" autocomplete="off" spellcheck="false">
-                    <button class="copy-btn" onclick="copyValue('binary')" title="Copy Value">📋</button>
+                <div class="field-wrapper text-wrapper">
+                    <label for="main-input">Enter Value</label>
+                    <div class="input-box">
+                        <input type="text" id="main-input" placeholder="Type a number..." autocomplete="off" spellcheck="false">
+                        <button id="clear-btn" onclick="clearAll()" title="Clear">Clear</button>
+                    </div>
                 </div>
-                <span class="error-msg" id="binary-err"></span>
+            </div>
+            <span class="error-msg" id="global-error"></span>
+        </section>
+
+        <!-- Results Grid Panel -->
+        <section class="results-grid">
+            <div class="result-card" data-card="binary">
+                <div class="card-top">
+                    <span class="tag">Base 2</span>
+                    <button class="copy-btn" onclick="copyText('res-binary')">📋 Copy</button>
+                </div>
+                <h3>Binary</h3>
+                <div class="result-val" id="res-binary">—</div>
             </div>
 
-            <!-- Decimal Card -->
-            <div class="card" data-base="decimal">
-                <div class="card-header">
-                    <span class="base-tag">Base 10</span>
-                    <h2>Decimal</h2>
+            <div class="result-card" data-card="decimal">
+                <div class="card-top">
+                    <span class="tag">Base 10</span>
+                    <button class="copy-btn" onclick="copyText('res-decimal')">📋 Copy</button>
                 </div>
-                <div class="input-group">
-                    <input type="text" id="decimal" placeholder="e.g. 10" autocomplete="off" spellcheck="false">
-                    <button class="copy-btn" onclick="copyValue('decimal')" title="Copy Value">📋</button>
-                </div>
-                <span class="error-msg" id="decimal-err"></span>
+                <h3>Decimal</h3>
+                <div class="result-val" id="res-decimal">—</div>
             </div>
 
-            <!-- Octal Card -->
-            <div class="card" data-base="octal">
-                <div class="card-header">
-                    <span class="base-tag">Base 8</span>
-                    <h2>Octal</h2>
+            <div class="result-card" data-card="octal">
+                <div class="card-top">
+                    <span class="tag">Base 8</span>
+                    <button class="copy-btn" onclick="copyText('res-octal')">📋 Copy</button>
                 </div>
-                <div class="input-group">
-                    <input type="text" id="octal" placeholder="e.g. 12" autocomplete="off" spellcheck="false">
-                    <button class="copy-btn" onclick="copyValue('octal')" title="Copy Value">📋</button>
-                </div>
-                <span class="error-msg" id="octal-err"></span>
+                <h3>Octal</h3>
+                <div class="result-val" id="res-octal">—</div>
             </div>
 
-            <!-- Hexadecimal Card -->
-            <div class="card" data-base="hex">
-                <div class="card-header">
-                    <span class="base-tag">Base 16</span>
-                    <h2>Hexadecimal</h2>
+            <div class="result-card" data-card="hex">
+                <div class="card-top">
+                    <span class="tag">Base 16</span>
+                    <button class="copy-btn" onclick="copyText('res-hex')">📋 Copy</button>
                 </div>
-                <div class="input-group">
-                    <input type="text" id="hex" placeholder="e.g. A" autocomplete="off" spellcheck="false">
-                    <button class="copy-btn" onclick="copyValue('hex')" title="Copy Value">📋</button>
-                </div>
-                <span class="error-msg" id="hex-err"></span>
+                <h3>Hexadecimal</h3>
+                <div class="result-val" id="res-hex">—</div>
             </div>
-        </main>
 
-        <div class="actions-bar">
-            <button id="clear-btn" onclick="clearAll()">Clear All Fields</button>
-        </div>
+            <!-- Stretch Goals Cards -->
+            <div class="result-card stretch-card" data-card="bcd">
+                <div class="card-top">
+                    <span class="tag stretch-tag">Stretch Goal</span>
+                    <button class="copy-btn" onclick="copyText('res-bcd')">📋 Copy</button>
+                </div>
+                <h3>BCD (Binary-Coded Decimal)</h3>
+                <div class="result-val small-text" id="res-bcd">—</div>
+            </div>
+
+            <div class="result-card stretch-card" data-card="ones">
+                <div class="card-top">
+                    <span class="tag stretch-tag">Stretch Goal</span>
+                    <button class="copy-btn" onclick="copyText('res-ones')">📋 Copy</button>
+                </div>
+                <h3>8-Bit 1's Complement</h3>
+                <div class="result-val small-text" id="res-ones">—</div>
+            </div>
+
+            <div class="result-card stretch-card full-width" data-card="twos">
+                <div class="card-top">
+                    <span class="tag stretch-tag">Stretch Goal</span>
+                    <button class="copy-btn" onclick="copyText('res-twos')">📋 Copy</button>
+                </div>
+                <h3>8-Bit 2's Complement (Signed)</h3>
+                <div class="result-val small-text" id="res-twos">—</div>
+            </div>
+        </section>
+
+        <!-- Step-by-Step Breakdown Section -->
+        <section class="breakdown-section">
+            <h2>Step-by-Step Conversion Breakdown</h2>
+            <div class="breakdown-content" id="breakdown-text">
+                Enter a valid value above to observe the digital transformation logic.
+            </div>
+        </section>
+
+        <!-- Footer Credits -->
+        <footer class="app-footer">
+            <p>Made by <span>Rayyan</span> and <span>SALEH</span></p>
+        </footer>
     </div>
 
     <script src="script.js"></script>
