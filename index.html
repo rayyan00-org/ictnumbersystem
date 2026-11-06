@@ -14,8 +14,15 @@
         <header>
             <span class="badge">ICT Digital Fundamentals Project</span>
             <h1>Number System <span>Converter</span></h1>
-            <p>Convert seamlessly between Binary, Decimal, Octal, Hexadecimal, BCD, 1's Complement, and 2's Complement.</p>
+            <p>Hands-free voice assistant & real-time base conversion system.</p>
         </header>
+
+        <!-- Hands-Free Voice Status Banner -->
+        <section class="voice-section">
+            <div id="voice-indicator" class="listening-pulse"></div>
+            <span id="voice-status">Listening automatically... Speak a number!</span>
+            <p class="voice-hint">Say: <em>"Decimal 45"</em>, <em>"Binary 1010"</em>, or type below.</p>
+        </section>
 
         <!-- Main Input Section -->
         <section class="input-section">
@@ -32,7 +39,7 @@
                 <div class="field-wrapper text-wrapper">
                     <label for="main-input">Enter Value</label>
                     <div class="input-box">
-                        <input type="text" id="main-input" placeholder="Type a number..." autocomplete="off" spellcheck="false">
+                        <input type="text" id="main-input" placeholder="Type or speak..." autocomplete="off" spellcheck="false">
                         <button id="clear-btn" onclick="clearAll()" title="Clear">Clear</button>
                     </div>
                 </div>
@@ -111,7 +118,7 @@
         <section class="breakdown-section">
             <h2>Step-by-Step Conversion Breakdown</h2>
             <div class="breakdown-content" id="breakdown-text">
-                Enter a valid value above to observe the digital transformation logic.
+                Speak a number or type above to observe the digital transformation logic.
             </div>
         </section>
 

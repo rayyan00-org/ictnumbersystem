@@ -56,7 +56,7 @@ body {
 
 header {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
 }
 
 .badge {
@@ -88,6 +88,61 @@ header h1 span {
 header p {
     color: var(--text-muted);
     font-size: 0.95rem;
+}
+
+/* Hands-Free Voice Status Bar */
+.voice-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: rgba(99, 102, 241, 0.06);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    border-radius: 14px;
+    padding: 12px 20px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+}
+
+.listening-pulse {
+    width: 12px;
+    height: 12px;
+    background-color: #22c55e;
+    border-radius: 50%;
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+    animation: pulse-green 1.8s infinite;
+}
+
+@keyframes pulse-green {
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+    }
+    70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 8px rgba(34, 197, 94, 0);
+    }
+    100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+    }
+}
+
+#voice-status {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #818cf8;
+}
+
+.voice-hint {
+    width: 100%;
+    text-align: center;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+}
+
+.voice-hint em {
+    color: #e2e8f0;
 }
 
 /* Input Section Styling */
