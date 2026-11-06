@@ -11,9 +11,12 @@ const resOnes = document.getElementById('res-ones');
 const resTwos = document.getElementById('res-twos');
 const breakdownText = document.getElementById('breakdown-text');
 
+const voiceBtn = document.getElementById('voice-btn');
 const voiceStatus = document.getElementById('voice-status');
 
-// Validation patterns for each base
+let recognition = null;
+let isListeningContinuous = false;
+
 const basePatterns = {
     '2': /^[0-1]*$/,
     '10': /^-?[0-9]*$/,
@@ -31,7 +34,7 @@ function clearAll() {
     resBcd.textContent = '—';
     resOnes.textContent = '—';
     resTwos.textContent = '—';
-    breakdownText.textContent = 'Speak a number or type above to observe the digital transformation logic.';
+    breakdownText.textContent = 'Tap the voice assistant button once, then speak freely!';
 }
 
 function computeConversions() {
@@ -95,7 +98,7 @@ function computeConversions() {
         let twosVal = decimalVal < 0 ? (256 + decimalVal) : decimalVal;
         resTwos.textContent = twosVal.toString(2).padStart(8, '0');
     } else {
-        resTwos.textContent = 'Out of 8-bit range (-128 to 127)';
+        resTwos.textContent = 'Out of 8-bit range (-127 to 127)';
     }
 
     updateBreakdown(rawValue, currentBase, decimalVal);
@@ -109,7 +112,7 @@ function clearOutputsOnly() {
     resBcd.textContent = '—';
     resOnes.textContent = '—';
     resTwos.textContent = '—';
-    breakdownText.textContent = 'Speak a number or type above to observe the digital transformation logic.';
+    breakdownText.textContent = 'Tap the voice assistant button once, then speak freely!';
 }
 
 function updateBreakdown(val, base, dec) {
@@ -144,22 +147,35 @@ function copyText(elementId) {
     }
 }
 
-// Hands-Free Continuous Speech Recognition Engine
-function initContinuousVoice() {
+// Single-Tap Continuous Hands-Free Voice Toggle
+function toggleVoiceAssistant() {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     
     if (!SpeechRecognition) {
-        voiceStatus.textContent = "Voice Assistant not supported in this browser.";
+        alert("Speech recognition is not supported on this browser. Please use Chrome.");
         return;
     }
 
-    const recognition = new SpeechRecognition();
+    if (isListeningContinuous) {
+        // Stop listening if already active
+        if (recognition) {
+            recognition.stop();
+        }
+        isListeningContinuous = false;
+        voiceBtn.classList.remove('listening');
+        voiceStatus.textContent = "Tap to Start Voice Assistant";
+        return;
+    }
+
+    recognition = new SpeechRecognition();
     recognition.lang = 'en-US';
     recognition.interimResults = false;
-    recognition.continuous = true; // Keeps listening continuously without stopping
+    recognition.continuous = true; // Stays active continuously after one tap
 
     recognition.onstart = function() {
-        voiceStatus.textContent = "Listening hands-free... Say a number!";
+        isListeningContinuous = true;
+        voiceBtn.classList.add('listening');
+        voiceStatus.textContent = "Listening continuously... Speak anytime!";
     };
 
     recognition.onresult = function(event) {
@@ -170,28 +186,25 @@ function initContinuousVoice() {
     };
 
     recognition.onerror = function(event) {
-        // Automatically restart listening if there's a minor noise error
-        if (event.onerror !== 'not-allowed') {
-            setTimeout(() => {
-                try { recognition.start(); } catch(e) {}
-            }, 1000);
+        // Ignore minor no-speech timeout errors and keep listening
+        if (event.error !== 'no-speech' && event.error !== 'aborted') {
+            voiceStatus.textContent = "Error: " + event.error;
         }
     };
 
     recognition.onend = function() {
-        // Automatically restart speech recognition so it never stops listening
-        try {
-            recognition.start();
-        } catch (e) {}
+        // Automatically restart if mobile browser shuts it down due to silence
+        if (isListeningContinuous) {
+            try {
+                recognition.start();
+            } catch (e) {}
+        }
     };
 
     try {
         recognition.start();
     } catch (e) {
-        voiceStatus.textContent = "Click anywhere on the page to activate voice assistant.";
-        document.body.addEventListener('click', () => {
-            try { recognition.start(); } catch (err) {}
-        }, { once: true });
+        alert("Could not start microphone. Please check permissions.");
     }
 }
 
@@ -214,8 +227,5 @@ function parseVoiceCommand(text) {
 
     mainInput.value = detectedNumber;
     computeConversions();
-    voiceStatus.textContent = `Heard: "${text}"`;
+    voiceStatus.textContent = `Heard: "${text}" (Listening...)`;
 }
-
-// Start voice assistant when page loads
-window.addEventListener('load', initContinuousVoice);
